@@ -27,53 +27,52 @@ Install Java (OpenJDK):
 If you have the pre-built JAR file, skip to the next section. If you need to build the JAR file from source, follow these steps:
 1) Clone the project repository:
 
-    git clone https://github.com/ComunisticheskiuBOT/Exe.git
-    cd Exe
+        git clone https://github.com/ComunisticheskiuBOT/Exe.git
+        cd Exe
 
 Build the JAR file: Ensure that Maven is installed on your system. If not, install it with:
 
-  sudo apt-get install maven
+      sudo apt-get install maven
 
 Once Maven is installed, you can build the JAR file using:
 
-  mvn clean package
+      mvn clean package
 
 After the build is complete, the JAR file will be located in the target directory:
 
-  target/altlinuxcli-1.0.jar
+      target/altlinuxcli-1.0.jar
 
 3. Install the Utility in the System
 Move the JAR file to a directory according to the FHS (Filesystem Hierarchy Standard). A common location for user-installed binaries is /usr/local/bin.
 Move the JAR file:
 
-  sudo mv target/altlinuxcli-1.0.jar /usr/local/bin/altlinuxcli.jar
+      sudo mv target/altlinuxcli-1.0.jar /usr/local/bin/altlinuxcli.jar
 
 Optionally, you can create a shell script to make running the tool easier:
 
-  sudo nano /usr/local/bin/altlinuxcli
+      sudo nano /usr/local/bin/altlinuxcli
 
 Add the following content to the script:
 
-#!/bin/bash
-  java -jar /usr/local/bin/altlinuxcli.jar "$@"
+      java -jar /usr/local/bin/altlinuxcli.jar "$@"
 
 Save and close the file (CTRL+X, then Y).
 
 Make the script executable:
 
 
-  sudo chmod +x /usr/local/bin/altlinuxcli
+      sudo chmod +x /usr/local/bin/altlinuxcli
 
 4. Usage
 
 Once the JAR file is installed and the script is created, you can run the utility directly from the terminal.
 Syntax:
 
-  altlinuxcli <branch1> <branch2>
+      altlinuxcli <branch1> <branch2>
 
 Example:
 
 To compare the packages from two branches of ALT Linux, for example, sisyphus and p10:
 
 
-  altlinuxcli sisyphus p10
+      altlinuxcli sisyphus p10
