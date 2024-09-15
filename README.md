@@ -19,18 +19,16 @@ If Java is installed, you should see the version information. If not, install Ja
 
 Install Java (OpenJDK):
 
-1) sudo apt-get update
-2) sudo apt-get install openjdk-11-jre
+    sudo apt-get update
+    sudo apt-get install openjdk-11-jre
 
 2. Download or Build the AltLinuxCLI JAR File
 
 If you have the pre-built JAR file, skip to the next section. If you need to build the JAR file from source, follow these steps:
 1) Clone the project repository:
 
-    bash
-
-git clone https://github.com/ComunisticheskiuBOT/Exe.git
-cd Exe
+    git clone https://github.com/ComunisticheskiuBOT/Exe.git
+    cd Exe
 
 Build the JAR file: Ensure that Maven is installed on your system. If not, install it with:
 
