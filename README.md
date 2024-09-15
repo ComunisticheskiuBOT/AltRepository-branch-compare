@@ -1,4 +1,4 @@
-ALT Linux CLI Utility - Installation and Usage Guide
+ALT Linux CLI Utility
 
 This document provides step-by-step instructions for installing and using the AltLinuxCLI utility on ALT Linux Workstation K 10.1. The utility compares packages from two different branches of ALT Linux and generates a comparison report.
 Requirements:
