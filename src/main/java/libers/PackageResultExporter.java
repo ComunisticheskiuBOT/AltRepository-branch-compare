@@ -32,7 +32,7 @@ public class PackageResultExporter{
             writer.write(header);
             writer.newLine();
             for (PackageInfo pkg : packages) {
-                writer.write(pkg.toString());  // Можно изменить формат вывода
+                writer.write(pkg.toString());
                 writer.newLine();
             }
         }
