@@ -28,7 +28,7 @@ If you have the pre-built JAR file, skip to the next section. If you need to bui
 1) Clone the project repository:
 
         git clone https://github.com/ComunisticheskiuBOT/AltRepository-branch-compare.git
-        cd Exe
+        cd AltRepository-branch-compare
 
 Build the JAR file: Ensure that Maven is installed on your system. If not, install it with:
 
