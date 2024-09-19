@@ -49,7 +49,7 @@ After the build is complete, the JAR file will be located in the target director
 Move the JAR file to a directory according to the FHS (Filesystem Hierarchy Standard). A common location for user-installed binaries is /usr/local/bin.
 Move the JAR file:
 
-        sudo mv target/altlinuxcli-1.0.jar /usr/local/bin/altlinuxcli-1.0-jar-with-dependencies.jar
+        sudo mv target/altlinuxcli-jar-with-dependencies.jar /usr/local/bin/altlinuxcli-1.0-jar-with-dependencies.jar
 
 Optionally, you can create a shell script to make running the tool easier:
 
