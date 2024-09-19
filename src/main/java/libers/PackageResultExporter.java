@@ -1,40 +1,104 @@
 package libers;
 
-import java.io.BufferedWriter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-public class PackageResultExporter{
+public class PackageResultExporter {
+
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     public static void exportComparisonResult(ComparisonResult result, String branch1, String branch2) throws IOException {
-        String inBranch1NotInBranch2File = "inBranch1NotInBranch2.txt";
-        String inBranch2NotInBranch1File = "inBranch2NotInBranch1.txt";
-        String higherInBranch1File = "higherInBranch1.txt";
+        ResultOutput output = new ResultOutput();
+        output.setFirstBranch(branch1);
+        output.setSecondBranch(branch2);
 
-        writeListToFile(inBranch1NotInBranch2File, result.getInBranch1NotInBranch2(),
-                "Пакеты в " + branch1 + " но не в " + branch2);
+        PackageList packageList = new PackageList();
+        packageList.setArch("x86_64");
 
-        writeListToFile(inBranch2NotInBranch1File, result.getInBranch1NotInBranch1(),
-                "Пакеты в " + branch2 + " но не в " + branch1);
+        packageList.setPackagesPresentedOnlyInFirstBranch(result.getInBranch1NotInBranch2());
+        packageList.setPackagesPresentedOnlyInSecondBranch(result.getInBranch2NotInBranch1());
+        packageList.setPackagesWithBiggerVersionInFirstBranch(result.getHigherInBranch1());
 
-        writeListToFile(higherInBranch1File, result.getHigherInBranch1(),
-                "Пакеты с новейшей версией в " + branch1);
+        output.setPackageList(List.of(packageList));
 
-        System.out.println("Результаты выгружены в файлы:");
-        System.out.println(inBranch1NotInBranch2File);
-        System.out.println(inBranch2NotInBranch1File);
-        System.out.println(higherInBranch1File);
+        // Записываем результат в JSON файл
+        try (FileWriter fileWriter = new FileWriter("comparison_result.json")) {
+            fileWriter.write(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(output));
+        }
+
+        System.out.println("Результаты выгружены в файл: comparison_result.json");
+    }
+}
+
+class ResultOutput {
+    private List<PackageList> packageList;
+    private String firstBranch;
+    private String secondBranch;
+
+    public List<PackageList> getPackageList() {
+        return packageList;
     }
 
-    private static void writeListToFile(String fileName, List<PackageInfo> packages, String header) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            writer.write(header);
-            writer.newLine();
-            for (PackageInfo pkg : packages) {
-                writer.write(pkg.toString());  // Можно изменить формат вывода
-                writer.newLine();
-            }
-        }
+    public void setPackageList(List<PackageList> packageList) {
+        this.packageList = packageList;
+    }
+
+    public String getFirstBranch() {
+        return firstBranch;
+    }
+
+    public void setFirstBranch(String firstBranch) {
+        this.firstBranch = firstBranch;
+    }
+
+    public String getSecondBranch() {
+        return secondBranch;
+    }
+
+    public void setSecondBranch(String secondBranch) {
+        this.secondBranch = secondBranch;
+    }
+}
+
+class PackageList {
+    private String arch;
+    private List<PackageInfo> packagesPresentedOnlyInFirstBranch;
+    private List<PackageInfo> packagesPresentedOnlyInSecondBranch;
+    private List<PackageInfo> packagesWithBiggerVersionInFirstBranch;
+
+    // Геттеры и сеттеры
+    public String getArch() {
+        return arch;
+    }
+
+    public void setArch(String arch) {
+        this.arch = arch;
+    }
+
+    public List<PackageInfo> getPackagesPresentedOnlyInFirstBranch() {
+        return packagesPresentedOnlyInFirstBranch;
+    }
+
+    public void setPackagesPresentedOnlyInFirstBranch(List<PackageInfo> packagesPresentedOnlyInFirstBranch) {
+        this.packagesPresentedOnlyInFirstBranch = packagesPresentedOnlyInFirstBranch;
+    }
+
+    public List<PackageInfo> getPackagesPresentedOnlyInSecondBranch() {
+        return packagesPresentedOnlyInSecondBranch;
+    }
+
+    public void setPackagesPresentedOnlyInSecondBranch(List<PackageInfo> packagesPresentedOnlyInSecondBranch) {
+        this.packagesPresentedOnlyInSecondBranch = packagesPresentedOnlyInSecondBranch;
+    }
+
+    public List<PackageInfo> getPackagesWithBiggerVersionInFirstBranch() {
+        return packagesWithBiggerVersionInFirstBranch;
+    }
+
+    public void setPackagesWithBiggerVersionInFirstBranch(List<PackageInfo> packagesWithBiggerVersionInFirstBranch) {
+        this.packagesWithBiggerVersionInFirstBranch = packagesWithBiggerVersionInFirstBranch;
     }
 }

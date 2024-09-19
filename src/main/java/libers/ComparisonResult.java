@@ -21,7 +21,7 @@ public class ComparisonResult {
         this.inBranch1NotInBranch2 = inBranch1NotInBranch2;
     }
 
-    public List<PackageInfo> getInBranch1NotInBranch1() {
+    public List<PackageInfo> getInBranch2NotInBranch1() {
         return inBranch1NotInBranch1;
     }
 

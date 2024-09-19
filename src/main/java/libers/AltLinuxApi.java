@@ -1,6 +1,5 @@
 package libers;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -11,7 +10,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.FileWriter;
 
 public class AltLinuxApi {
     private static final String API_URL = "https://rdb.altlinux.org/api/export/branch_binary_packages/";
@@ -31,25 +29,30 @@ public class AltLinuxApi {
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         String responseBody = response.body();
 
-        List<PackageInfo> packages = new ArrayList<>();
+        List<PackageInfo> packageList = new ArrayList<>();
         JsonNode rootNode = mapper.readTree(responseBody);
 
-        if (rootNode.isArray()) {
-            packages = mapper.convertValue(rootNode, new TypeReference<List<PackageInfo>>() {});
-        } else if (rootNode.isObject()) {
-            System.err.println("Обрабатываем объект.");
-            JsonNode packagesNode = rootNode.get("packages"); // Замените "packages" на правильное имя поля
+        if (rootNode.isObject()) {
+            JsonNode packagesNode = rootNode.get("packages");
             if (packagesNode != null && packagesNode.isArray()) {
-                packages = mapper.convertValue(packagesNode, new TypeReference<List<PackageInfo>>() {});
+                for (JsonNode packageNode : packagesNode) {
+                    PackageInfo packageData = new PackageInfo(
+                            packageNode.get("name").asText(),
+                            packageNode.get("epoch").asInt(),
+                            packageNode.get("version").asText(),
+                            packageNode.get("release").asText(),
+                            packageNode.get("arch").asText(),
+                            packageNode.get("disttag").asText(),
+                            packageNode.get("buildtime").asLong(),
+                            packageNode.get("source").asText()
+                    );
+                    packageList.add(packageData);
+                }
             }
         } else {
             System.err.println("Неизвестный формат данных.");
         }
 
-        try (FileWriter fileWriter = new FileWriter("output_" + branch + ".json")) {
-            fileWriter.write(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(packages));
-        }
-
-        return packages;
+        return packageList;
     }
 }
