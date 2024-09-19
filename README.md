@@ -27,7 +27,7 @@ Install Java (OpenJDK):
 If you have the pre-built JAR file, skip to the next section. If you need to build the JAR file from source, follow these steps:
 1) Clone the project repository:
 
-        git clone https://github.com/ComunisticheskiuBOT/Exe.git
+        git clone https://github.com/ComunisticheskiuBOT/AltRepository-branch-compare.git
         cd Exe
 
 Build the JAR file: Ensure that Maven is installed on your system. If not, install it with:
@@ -43,7 +43,7 @@ After the build is complete, the JAR file will be located in the target director
       target/altlinuxcli-1.0-jar-with-dependencies.jar
 2.2 If you want just use it without installing utillity in the System use terminal:
 
-    java -jar /usr/local/bin/altlinuxcli-1.0-jar-with-dependencies.jar <branch1> <branch2>
+    java -jar {path}/altlinuxcli-1.0-jar-with-dependencies.jar <branch1> <branch2>
         
 3. Install the Utility in the System
 Move the JAR file to a directory according to the FHS (Filesystem Hierarchy Standard). A common location for user-installed binaries is /usr/local/bin.
